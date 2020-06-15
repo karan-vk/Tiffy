@@ -5,8 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "predeploy":"yarn build",
-    "deploy":"firebase deploy"
+    "deploy": "firebase deploy",
+    "predeploy": "yarn build"
   },
   "dependencies": {
     "@mdi/font": "^5.3.45",
@@ -14,6 +14,7 @@
     "date-fns": "^2.13.0",
     "firebase": "^7.14.3",
     "moment": "^2.25.3",
+    "register-service-worker": "^1.7.1",
     "vue": "^2.6.11",
     "vue-router": "^3.1.6",
     "vuelidate": "^0.7.5",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.3.0",
+    "@vue/cli-plugin-pwa": "~4.4.0",
     "@vue/cli-plugin-router": "~4.3.0",
     "@vue/cli-plugin-vuex": "~4.3.0",
     "@vue/cli-service": "~4.3.0",
