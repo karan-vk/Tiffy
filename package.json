@@ -4,12 +4,20 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "predeploy":"yarn build",
+    "deploy":"firebase deploy"
   },
   "dependencies": {
+    "@mdi/font": "^5.3.45",
     "core-js": "^3.6.4",
+    "date-fns": "^2.13.0",
+    "firebase": "^7.14.3",
+    "moment": "^2.25.3",
     "vue": "^2.6.11",
     "vue-router": "^3.1.6",
+    "vuelidate": "^0.7.5",
+    "vuetify": "^2.2.11",
     "vuex": "^3.1.3"
   },
   "devDependencies": {
@@ -17,7 +25,11 @@
     "@vue/cli-plugin-router": "~4.3.0",
     "@vue/cli-plugin-vuex": "~4.3.0",
     "@vue/cli-service": "~4.3.0",
-    "vue-template-compiler": "^2.6.11"
+    "sass": "^1.19.0",
+    "sass-loader": "^8.0.0",
+    "vue-cli-plugin-vuetify": "~2.0.5",
+    "vue-template-compiler": "^2.6.11",
+    "vuetify-loader": "^1.3.0"
   },
   "browserslist": [
     "> 1%",

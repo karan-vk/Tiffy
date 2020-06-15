@@ -1,29 +1,64 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Dashboard from "../views/Dashboard.vue";
+import Login from "../views/Login.vue";
+import Lost from "../views/404.vue";
+import { aut } from "../fb";
+Vue.use(VueRouter);
 
-Vue.use(VueRouter)
-
-  const routes = [
+const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: "/",
+    name: "Home",
+    component: Login,
+    meta: { isLogedin: true },
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
+    path: "/project",
+    name: "Project",
+    component: () => import("../views/Projects.vue"),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/team",
+    name: "Team",
+    component: () => import("../views/Team.vue"),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    component: Dashboard,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/*",
+    name: "404",
+    component: Lost,
+  },
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+router.beforeEach((to, from, next) => {
+  const isloged = to.matched.some((x) => x.meta.isLogedin);
+
+  const requiresAuth = to.matched.some((x) => x.meta.requiresAuth);
+  const currentUser = aut.currentUser;
+
+  if (requiresAuth && !currentUser) {
+    next("/");
+  } else if (requiresAuth && currentUser) {
+    next();
+  } else if (currentUser && to.path == "/" && isloged) {
+    next("/dashboard");
+  } else {
+    next();
+  }
+});
+
+export default router;

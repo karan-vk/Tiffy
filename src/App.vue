@@ -1,32 +1,53 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app id="" class="grey lighten-4">
+    <Navbar v-if="isNavShow"></Navbar>
+
+    <v-content class="mx-6  mb-4 ">
+      <transition name="fade" mode="out-in">
+        <router-view></router-view>
+      </transition>
+    </v-content>
+
+    <v-footer :inset="footer.inset" app>
+      <span class="px-4">&copy; {{ new Date().getFullYear() }}</span>
+    </v-footer>
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+// import Navbar from "@/components/Navbar";
+import { aut } from "./fb";
+
+export default {
+  components: { Navbar:()=>import("@/components/Navbar") },
+  data: () => ({
+    footer: {
+      inset: false,
+    },
+    isAuth: aut.currentUser !== null,
+  }),
+  created: function() {
+    this.$store.state.user = aut.currentUser;
+  },
+  computed: {
+    isNavShow() {
+      this.$store.state.user = aut.currentUser;
+
+      return this.$store.state.user;
+    },
+  },
+};
+</script>
+<style lang="scss" scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.2s;
+  transition-property: opacity;
+  transition-timing-function: ease;
 }
 
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
 }
 </style>
