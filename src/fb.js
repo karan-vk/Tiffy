@@ -14,3 +14,12 @@ var firebaseConfig = {
 export const fb=fire.initializeApp(firebaseConfig);
 export const aut= fb.auth()
 export const db = fire.firestore();
+db.enablePersistence().catch(err=>{
+  if (err.code=="failed-precondition") {
+    console.log("persistence failed")
+  }
+  else if(err.code == "unimplemented"){
+    console.log("persistence is not available");
+    
+  }
+})

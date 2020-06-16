@@ -38,7 +38,7 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss" >
 .fade-enter-active,
 .fade-leave-active {
   transition-duration: 0.2s;
@@ -50,4 +50,5 @@ export default {
 .fade-leave-active {
   opacity: 0;
 }
+@import '../node_modules/@mdi/font/css/materialdesignicons.min.css'
 </style>

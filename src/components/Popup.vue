@@ -83,9 +83,10 @@ export default {
           .add(project)
           .then(() => {
             this.loading = false;
-            this.dialog = false;
-            this.$emit("projectAdded");
+            
           });
+            this.dialog = false;
+          this.$emit("projectAdded");
       }
     },
   },
