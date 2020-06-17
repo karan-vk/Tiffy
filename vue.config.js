@@ -12,9 +12,9 @@ module.exports = {
       runtimeCaching:[
         {
           urlPattern:new RegExp('^https://fonts.googleapis.com/'),
-          handler:"networkFirst",
+          handler:"cacheFirst",
           options:{
-            networkTimeoutSeconds:20,
+            
             cacheName:'api-font-goog',
             cacheableResponse:{
               statuses:[0,200]

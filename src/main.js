@@ -4,13 +4,15 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import Vuelidate from "vuelidate";
+
 Vue.use(Vuelidate);
 import { aut } from "./fb";
 import "./registerServiceWorker";
 Vue.config.productionTip = false;
 
 let app = "";
-aut.onAuthStateChanged(function(user) {
+
+aut.onAuthStateChanged((user) => {
   if (!app) {
     new Vue({
       router,

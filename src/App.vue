@@ -1,5 +1,5 @@
 <template>
-  <v-app id="" class="grey lighten-4">
+  <v-app id="app" class="grey lighten-4">
     <Navbar v-if="isNavShow"></Navbar>
 
     <v-content class="mx-6  mb-4 ">
@@ -8,22 +8,20 @@
       </transition>
     </v-content>
 
-    <v-footer :inset="footer.inset" app>
-      <span class="px-4">&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>
+    <Footer />
   </v-app>
 </template>
 
 <script>
 // import Navbar from "@/components/Navbar";
 import { aut } from "./fb";
+import Navbar from "@/components/Navbar";
+import Footer from "./components/UI/Footer/footer"
 
 export default {
-  components: { Navbar:()=>import("@/components/Navbar") },
+  components: { Navbar: Navbar,Footer:Footer },
   data: () => ({
-    footer: {
-      inset: false,
-    },
+    
     isAuth: aut.currentUser !== null,
   }),
   created: function() {
@@ -34,11 +32,18 @@ export default {
       this.$store.state.user = aut.currentUser;
 
       return this.$store.state.user;
+      
     },
+  },
+  mounted() {
+    this.$store.state.user = aut.currentUser;
   },
 };
 </script>
-<style lang="scss" >
+<style lang="scss">
+
+
+
 .fade-enter-active,
 .fade-leave-active {
   transition-duration: 0.2s;
@@ -50,5 +55,5 @@ export default {
 .fade-leave-active {
   opacity: 0;
 }
-@import '../node_modules/@mdi/font/css/materialdesignicons.min.css'
+// @import "../node_modules/@mdi/font/css/materialdesignicons.min.css";
 </style>

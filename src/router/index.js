@@ -9,9 +9,10 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "Home",
+    name: "Login",
     component: Login,
-    meta: { isLogedin: true },
+
+    meta: { OnLogedin: false },
   },
   {
     path: "/project",
@@ -45,17 +46,20 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const isloged = to.matched.some((x) => x.meta.isLogedin);
+  const isloged = to.matched.some((x) => x.meta.OnLogedin);
+
 
   const requiresAuth = to.matched.some((x) => x.meta.requiresAuth);
   const currentUser = aut.currentUser;
+  
 
   if (requiresAuth && !currentUser) {
     next("/");
   } else if (requiresAuth && currentUser) {
     next();
-  } else if (currentUser && to.path == "/" && isloged) {
+  } else if (currentUser && to.path == "/" && !isloged) {
     next("/dashboard");
+    return;
   } else {
     next();
   }
