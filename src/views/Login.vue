@@ -1,8 +1,6 @@
 <template>
   <v-layout row wrap justify-space-around>
     <v-flex md6 sm11 xs11>
-           
-
       <v-card class="my-6">
         <v-tabs
           v-model="tab"
@@ -29,16 +27,7 @@
             <Signin />
           </v-tab-item>
           <v-tab-item>
-            <!-- <v-lazy
-              v-model="Signup"
-              :options="{
-                threshold: 0.5,
-              }"
-              min-height="400px"
-              transition="fade-transition"
-            > -->
-              <Signup />
-            <!-- </v-lazy> -->
+            <Signup />
           </v-tab-item>
         </v-tabs-items>
       </v-card>
@@ -47,19 +36,11 @@
 </template>
 
 <script>
-
-import Signup from "../components/Form/NewUser/NewUser"
-import Signin from "../components/Form/Signin/Signin"
-
+import Signup from "../components/Form/NewUser/NewUser";
+import Signin from "../components/Form/Signin/Signin";
 
 export default {
-  components: { Signup: Signup,
-  Signin:Signin
-  
-  },
-  
-
-  
+  components: { Signup: Signup, Signin: Signin },
 
   data() {
     return {
@@ -82,8 +63,6 @@ export default {
       snackbarError: false,
     };
   },
-
-  
 };
 </script>
 

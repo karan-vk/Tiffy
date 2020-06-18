@@ -20,8 +20,9 @@
 
 <script>
 // @ is an alias to /src
-import { db,aut } from "../fb";
+// import { db,aut } from "../fb";
 import LenArray from "../Utility/length"
+import {projectGet} from "../Utility/getproject"
 export default {
   name: "Home",
   components: {Popup:()=>import('../components/Popup')},
@@ -42,19 +43,8 @@ export default {
     }
   },
   created() {
-    db.collection("projects")
-    .where("uid","==",aut.currentUser.email)
-    .onSnapshot((res) => {
-      const changes = res.docChanges();
-      changes.forEach((change) => {
-        if (change.type == "added") {
-          this.projects.push({
-            ...change.doc.data(),
-            id: change.doc.id,
-          });
-        }
-      });
-    });
+    this.projects=projectGet()
+    
   },
 };
 </script>

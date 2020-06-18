@@ -1,48 +1,52 @@
 <template>
-<div>
-    <Snackbar  type="error" v-bind:snackbar="snackbarError" > {{error}} </Snackbar> 
-      <v-form ref="form" v-model="valid" lazy-validation v-if="!isSingup">
-        <v-text-field
-          v-model="email"
-          :error-messages="emailErrors"
-          label="E-mail"
-          outlined
-          required
-          @input="$v.email.$touch()"
-          @blur="$v.email.$touch()"
-        ></v-text-field>
-        <v-text-field
-          v-model="password"
-          :error-messages="passwordErrors"
-          :append-icon="login.show ? 'mdi-eye' : 'mdi-eye-off'"
-          :type="login.show ? 'text' : 'password'"
-          label="Password"
-          required
-          outlined
-          @keypress.enter="Login"
-          @input="$v.password.$touch()"
-          @blur="$v.password.$touch()"
-          @click:append="login.show = !login.show"
-        ></v-text-field>
-        <v-btn
-          :disabled="!valid"
-          :loading="inloading"
-          color="success"
-          class="mr-4 mt-2"
-          @click="Login"
-        >
-          Login
-        </v-btn>
-    
-        <v-btn color="error" class="mr-4 mt-2" @click="reset">
-          Reset Password
-        </v-btn>
-      </v-form>
-</div>
+  <div>
+    <Snackbar type="error" v-bind:snackbar="snackbarError">
+      {{ error }}
+    </Snackbar>
+    <v-form ref="form" v-model="valid" lazy-validation v-if="!isSingup">
+      <v-text-field
+        v-model="email"
+        :error-messages="emailErrors"
+        label="E-mail"
+        outlined
+        required
+        @input="$v.email.$touch()"
+        @blur="$v.email.$touch()"
+      ></v-text-field>
+      <v-text-field
+        v-model="password"
+        :error-messages="passwordErrors"
+        :append-icon="login.show ? 'mdi-eye' : 'mdi-eye-off'"
+        :type="login.show ? 'text' : 'password'"
+        label="Password"
+        required
+        outlined
+        @keypress.enter="Login"
+        @input="$v.password.$touch()"
+        @blur="$v.password.$touch()"
+        @click:append="login.show = !login.show"
+      ></v-text-field>
+      <v-btn
+        :disabled="!valid"
+        :loading="inloading"
+        color="success"
+        class="mr-4 mt-2"
+        @click="Login"
+      >
+        Login
+      </v-btn>
+      <GSign />
+      <GitSign />
+
+      <v-btn color="error" class="mr-4 mt-2" @click="reset">
+        Reset Password
+      </v-btn>
+    </v-form>
+  </div>
 </template>
 
 <script>
-import { aut, db } from "@/fb";
+import { aut } from "../../../fb";
 import Snackbar from "../../UI/Snackbar/Snackbar";
 import { validationMixin } from "vuelidate";
 import {
@@ -51,9 +55,10 @@ import {
   email,
   minLength,
 } from "vuelidate/lib/validators";
-
+import Gsign from '../../Auth/GoogleSignin/GoogleSignin';
+import GitSignin from "../../Auth/GitAuth/GitAuth"
 export default {
-  components: { Snackbar: Snackbar },
+  components: { Snackbar: Snackbar,GSign:Gsign,GitSign:GitSignin },
   mixins: [validationMixin],
   validations: {
     email: { required, email },
@@ -102,9 +107,7 @@ export default {
     };
   },
   methods: {
-      snackf(){
-          
-      },
+    snackf() {},
     validate() {
       this.$refs.form.validate();
     },
@@ -130,23 +133,23 @@ export default {
             case "auth/user-not-found":
               this.error = "User does not exist";
               this.snackbarError = true;
-              break
+              break;
             case "auth/wrong-password":
-              this.error="Incorrect Password"
-              this.snackbarError=true
-              break
+              this.error = "Incorrect Password";
+              this.snackbarError = true;
+              break;
             default:
-              this.error="something went wrong"
-              this.snackbarError=true
-              
+              this.error = "something went wrong";
+              this.snackbarError = true;
           }
-              this.inloading = false;
+          this.inloading = false;
         });
-        setTimeout(()=>{
-            this.error=null
-            this.snackbarError=false
-        },5000)
+      setTimeout(() => {
+        this.error = null;
+        this.snackbarError = false;
+      }, 5000);
     },
+    
   },
 };
 </script>

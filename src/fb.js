@@ -1,6 +1,6 @@
 import fire from "firebase/app";
 import "firebase/firestore";
-import auth from "firebase/auth";
+import  "firebase/auth";
 
 var firebaseConfig = {
   apiKey: "AIzaSyCcm1bZQ6TioV7qRVPiDCUYeHaODk7Yqps",
@@ -11,6 +11,8 @@ var firebaseConfig = {
   messagingSenderId: "625707313407",
   appId: "1:625707313407:web:b3b1540ba9a6708cf344ca",
 };
+export const gitLogin =new fire.auth.GithubAuthProvider()
+export const glogin = new fire.auth.GoogleAuthProvider()
 export const fb = fire.initializeApp(firebaseConfig);
 export const aut = fb.auth();
 // fire
@@ -35,3 +37,6 @@ db.enablePersistence().catch((err) => {
     console.log("persistence is not available");
   }
 });
+
+
+// var provider = new fb.auth()

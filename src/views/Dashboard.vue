@@ -1,7 +1,6 @@
 <template>
-  <div class="Dashboard">
+  <div class="Dashboard  " style="height:100%">
     <h1 class="mb-12">Dashboard</h1>
-    <!-- <v-btn @click="debug">Check</v-btn> -->
     <v-container class="my-8 mt-12">
       <v-row justify-start class="mb-3">
         <v-tooltip top>
@@ -25,7 +24,7 @@
         </v-tooltip>
       </v-row>
       <div class="text-center">
-        <Popup v-if="lengthA"  btnPlaceholder="Start creating the projects 🥳" />
+        <Popup v-if="lengthA" btnPlaceholder="Start creating the projects 🥳" />
       </div>
       <v-card
         flat
@@ -52,31 +51,49 @@
           </v-flex>
           <v-flex xs2 sm4 md2>
             <div class="float-right">
-              <v-chip small :class="` pro ${statuscheck(project.due)} white--text my-2 `"
-                >{{ statuscheck(project.due) }} 
+              <v-chip
+                small
+                :class="` pro ${statuscheck(project.due)} white--text my-2 `"
+                >{{ statuscheck(project.due) }}
               </v-chip>
             </div>
           </v-flex>
         </v-row>
       </v-card>
     </v-container>
+    <div
+      style="position: fixed;
+  bottom: 3em;
+  right: 0;"
+      row
+      wrap
+      justify-end
+      align-end
+    >
+      <v-btn @click="reloadpro" fab :loading="reloading" class="success"
+        ><v-icon>mdi-reload</v-icon></v-btn
+      >
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import { db, aut } from "../fb";
-import lenArray from "../Utility/length"
+import lenArray from "../Utility/length";
 import moment from "moment";
-
+import { projectGet } from "../Utility/getproject";
 
 export default {
   name: "Home",
-  components: { Popup: () => import("../components/Popup") },
+  components: {
+    Popup: () => import("../components/Popup"),
+    // Navbar:NavBar
+  },
   data() {
     return {
+      reloading: false,
       projects: [],
-      // auth: aut.currentUser !== null,
+
       cole: {
         complete: "#3cd1c2",
         ongoing: "orange",
@@ -85,60 +102,32 @@ export default {
     };
   },
   methods: {
-    
-    
     sortBy(com) {
       this.projects.sort((a, b) => (a[com] < b[com] ? -1 : 1));
     },
     reloadpro() {
-      db.collection("projects")
-        .where("uid", "==", aut.currentUser.email)
-        .onSnapshot((res) => {
-          const changes = res.docChanges();
-          changes.forEach((change) => {
-            if (change.type === "added") {
-              this.projects.push({
-                ...change.doc.data(),
-                id: change.doc.id,
-              });
-            }
-          });
-        });
+      this.reloading = true;
+      this.projects = projectGet();
+      this.reloading = false;
     },
-    
-    statuscheck(date){
-      const dateondb = moment(date,"dddd, Do MMMM YYYY").valueOf() 
-      const nowdate = moment(new Date).valueOf()
-      if (dateondb<=nowdate) {
-        return "overdue"
-        
-      }
-      else{
-        return "ongoing"
 
+    statuscheck(date) {
+      const dateondb = moment(date, "dddd, Do MMMM YYYY").valueOf();
+      const nowdate = moment(new Date()).valueOf();
+      if (dateondb <= nowdate) {
+        return "overdue";
+      } else {
+        return "ongoing";
       }
-    }
+    },
   },
   computed: {
-    lengthA(){
-      return lenArray(this.projects)
-
-    }
+    lengthA() {
+      return lenArray(this.projects);
+    },
   },
   created() {
-    db.collection("projects")
-      .where("uid", "==", aut.currentUser.email)
-      .onSnapshot((res) => {
-        const changes = res.docChanges();
-        changes.forEach((change) => {
-          if (change.type === "added") {
-            this.projects.push({
-              ...change.doc.data(),
-              id: change.doc.id,
-            });
-          }
-        });
-      });
+    this.projects = projectGet();
   },
 };
 </script>

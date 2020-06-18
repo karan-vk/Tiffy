@@ -1,6 +1,70 @@
 <template>
   <div>
-    <Drawer @snackbar="snack" v-bind:show="show" />
+    <v-navigation-drawer
+    class="primary "
+    v-model="show"
+    :clipped="primaryDrawer.clipped"
+    :floating="primaryDrawer.floating"
+    :mini-variant="primaryDrawer.mini"
+    :temporary="primaryDrawer.type === 'temporary'"
+    app
+    overflow
+  >
+    <v-col align="center">
+      <v-flex class="mt-6">
+        <Userimage  size="110" />
+
+        <p class="white--text headline mt-1">
+          {{ Dispname }}
+        </p>
+      </v-flex>
+      <v-flex class="mt-4 mb-3 text-center">
+        <popup
+          btnPlaceholder="Add new Project"
+          @snakbar="snack"
+        />
+      </v-flex>
+    </v-col>
+    <v-list nav>
+      <v-divider></v-divider>
+
+      <v-list-item
+        v-for="item in items"
+        :key="item.title"
+        router
+        :to="item.route"
+      >
+        <v-list-item-icon>
+          <v-icon class="white--text">{{ item.icon }}</v-icon>
+        </v-list-item-icon>
+
+        <v-list-item-content>
+          <v-list-item-title class="white--text">{{
+            item.title
+          }}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-divider></v-divider>
+      <v-list-item class="white--text">
+        <v-list-item-icon>
+          <v-btn text fab color="black">
+            <v-icon>mdi-brightness-6 </v-icon>
+          </v-btn>
+          <v-list-item-title class="white--text">
+            <v-switch
+              block
+              inset
+              color="black"
+              class="mx-4"
+              v-model="$vuetify.theme.dark"
+              primary
+              label="Dark"
+            ></v-switch>
+          </v-list-item-title>
+        </v-list-item-icon>
+      </v-list-item>
+    </v-list>
+  </v-navigation-drawer>
     <Snackbar type="success" v-bind:snackbar="snackbarSuccess">{{
       snackbarMessage
     }}</Snackbar>
@@ -49,12 +113,12 @@
 
 <script>
 import { aut } from "../fb";
-import Drawer from "./UI/Navigation Drawer/NavigationDrawer.vue";
 export default {
   components: {
-    Drawer: Drawer,
+    popup:()=>import('./Popup'),
     Snackbar: () => import("./UI/Snackbar/Snackbar"),
     Userimage: () => import("./UI/UserImage/Userimage"),
+    userImage:()=>import("./UI/UserImage/Userimage")
   },
   data: () => {
     return {
@@ -95,6 +159,22 @@ export default {
         })
         .catch((err) => console.log(err));
     },
+  },
+  created() {
+    this.imgurl = aut.currentUser.photoURL;
+  },
+  computed: {
+    Dispname() {
+      setTimeout(() => {
+        this.name = this.$store.state.user.displayName.toUpperCase();
+      }, 1000);
+      return this.name;
+    },
+    
+  },
+  mounted() {
+    console.log("mounted")
+    
   },
 };
 </script>
