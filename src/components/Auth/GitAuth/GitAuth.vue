@@ -50,6 +50,10 @@ export default {
           // Handle Errors here.
           console.log(error)
           var errorCode = error.code;
+          if (error.code=="auth/popup-closed-by-user") {
+              this.inloading=false
+              
+          }
           var errorMessage = error.message;
           // The email of the user's account used.
           var email = error.email;

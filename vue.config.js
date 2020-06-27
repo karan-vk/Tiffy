@@ -2,6 +2,7 @@ module.exports = {
   // publicPath: process.env.NODE_ENV === 'production'
   //   ? '/Tiffy'
   //   : '/',
+  productionSourceMap: false,
   transpileDependencies: ["vuetify"],
   chainWebpack: (config) => {
     config.plugins.delete("prefetch");

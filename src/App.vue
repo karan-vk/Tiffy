@@ -35,8 +35,13 @@ export default {
       return aut.currentUser;
     },
   },
+  watch: {
+    
+  },
   mounted() {
     this.$store.state.user = aut.currentUser;
+    console.log("v2");
+    
   },
 };
 </script>

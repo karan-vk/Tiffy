@@ -69,7 +69,7 @@
       snackbarMessage
     }}</Snackbar>
 
-    <v-app-bar :clipped-left="primaryDrawer.clipped" app flat>
+    <v-app-bar v-if="show==true" :clipped-left="primaryDrawer.clipped" app flat>
       <!-- <v-snackbar v-model="snakbar1" :timeout="4000" color="success">
         
         <v-btn text color="white" @click="snakbar1 = false">Close</v-btn>
@@ -124,7 +124,7 @@ export default {
     return {
       imgurl: null,
       name: aut.currentUser.displayName.toUpperCase(),
-      show: false,
+      show: true,
       drawers: ["Default (no property)", "Permanent", "Temporary"],
       primaryDrawer: {
         type: "default (no property)",
@@ -156,6 +156,7 @@ export default {
         .then(() => {
           this.$store.state.user = null;
           this.$router.push("/");
+          this.show=false
         })
         .catch((err) => console.log(err));
     },

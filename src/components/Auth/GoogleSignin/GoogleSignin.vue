@@ -13,9 +13,11 @@ export default {
     methods: {
         gLogin() {
       var provider = glogin;
+      provider.addScope("https://www.googleapis.com/auth/admin.directory.customer.readonly")
       aut
         .signInWithPopup(provider)
         .then((result) => {
+          console.log(result  )
           db.collection("users").doc(result.user.email).get().then(doc=>{
             if(doc.exists){
               console.log("Already signed up")
@@ -43,6 +45,7 @@ export default {
         .catch(function(error) {
           // Handle Errors here.
           var errorCode = error.code;
+          console.log(error);
           var errorMessage = error.message;
           // The email of the user's account used.
           var email = error.email;
