@@ -27,8 +27,10 @@
     "@vue/cli-service": "~4.4.4",
     "sass": "^1.26.8",
     "sass-loader": "^8.0.0",
+
     "vue-cli-plugin-vuetify": "~2.0.5",
     "vue-template-compiler": "^2.6.12",
+
     "vuetify-loader": "^1.5.0"
   },
   "browserslist": [
