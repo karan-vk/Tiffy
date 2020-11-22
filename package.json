@@ -32,7 +32,7 @@
  
     "sass-loader": "^8.0.0",
 
-    "@vue/cli-service": "~4.5.8",
+    "@vue/cli-service": "~4.5.9",
 
     "sass": "^1.29.0",
     
