@@ -21,7 +21,7 @@
   },
   "devDependencies": {
 
-    "@vue/cli-plugin-babel": "~4.5.8",
+    "@vue/cli-plugin-babel": "~4.5.10",
   
     "@vue/cli-plugin-pwa": "~4.5.8",
 
